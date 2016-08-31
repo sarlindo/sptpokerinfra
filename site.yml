@@ -1,0 +1,4 @@
+---
+- include: playbooks/provisionawsinfra.yml
+- include: playbooks/loadpostgresdb.yml
+- include: playbooks/deployapp.yml

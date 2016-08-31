@@ -1,0 +1,35 @@
+---
+- name: Load PostGres DB
+  hosts: localhost
+  gather_facts: False
+
+  tasks:
+  - name: Get DB dump from S3
+    local_action:
+      module: s3
+      ec2_access_key: "{{ ec2_access_key }}"
+      ec2_secret_key: "{{ ec2_secret_key }}"
+      bucket: sptdb.arlindo.ca
+      object: latest.dump
+      dest: /tmp/latest.dump
+      mode: get
+
+  - name: get RDS endpoint instance facts
+    local_action:
+      module: rds
+      region: "{{ ec2_region }}"
+      ec2_access_key: "{{ ec2_access_key }}"
+      ec2_secret_key: "{{ ec2_secret_key }}"
+      command: facts
+      instance_name: "{{ webstoreapi_dbinstancename }}"
+    register: rds_facts
+
+  - name: Set RDS endpoint fact
+    set_fact: webstoreapi_endpointhost={{ rds_facts.instance.endpoint }}
+
+  - name: Restore PostGres Dump 
+    local_action:
+      module: command pg_restore --verbose --clean --dbname={{ webstoreapi_dbname }} -w -U {{ webstoreapi_dbuser }} -h {{ webstoreapi_endpointhost }} --no-acl --no-owner -w /tmp/latest.dump
+    environment:
+      PGPASSWORD: "{{ webstoreapi_dbpassword }}"
+    ignore_errors: yes

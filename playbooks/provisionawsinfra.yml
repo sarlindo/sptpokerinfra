@@ -1,0 +1,29 @@
+---
+- name: Provision AWS Postgres rds
+  hosts: localhost
+  gather_facts: False
+
+  tasks:
+  - name: Launch RDS instances
+    local_action:
+      module: rds
+      region: "{{ ec2_region }}"
+      ec2_access_key: "{{ ec2_access_key }}"
+      ec2_secret_key: "{{ ec2_secret_key }}"
+      command: create
+      instance_name: "{{ webstoreapi_dbinstancename }}"
+      db_name: "{{ webstoreapi_dbname }}" 
+      db_engine: postgres
+      instance_type: db.r3.large
+      username: "{{ webstoreapi_dbuser }}"
+      password: "{{ webstoreapi_dbpassword }}"
+      multi_zone: yes
+      publicly_accessible: yes
+      backup_retention: 1
+      size: 10
+      wait: yes
+      wait_timeout: 2000
+      vpc_security_groups: sg-a76adadd
+      tags:
+        Environment: dev
+        Application: webstore

@@ -1,0 +1,35 @@
+Define SPTPOKERDOCROOT /var/www/poker
+<VirtualHost *:80>
+        ServerAdmin webmaster@localhost
+        ServerName sptpoker.arlindo.ca
+        CustomLog logs/sptpoker-access.log combined
+        ErrorLog logs/sptpoker-error.log
+
+        SetEnv APPLICATION_ENV production
+        SetEnv SITE sptpoker
+
+        DocumentRoot ${SPTPOKERDOCROOT}
+
+        # Django python static folder configuration
+        Alias /media ${SPTPOKERDOCROOT}/apps/spt/static
+        Alias /static ${SPTPOKERDOCROOT}/apps/spt/static
+        <Directory ${SPTPOKERDOCROOT}/apps/spt/static>
+                Require all granted
+        </Directory>
+
+        #WSGI DAEMON process configuration
+
+        WSGIDaemonProcess sptpoker.arlindo.ca user=ec2-user processes=5 threads=30 python-path=${SPTPOKERDOCROOT}
+        WSGIProcessGroup sptpoker.arlindo.ca
+        WSGIPassAuthorization on
+        WSGIScriptAlias / ${SPTPOKERDOCROOT}/poker/wsgi.py
+
+        <Directory ${SPTPOKERDOCROOT}/wsgi-scripts>
+                Require all granted
+        </Directory>
+
+        <Location /server-status>
+            SetHandler server-status
+            Require local
+        </Location>
+</VirtualHost>

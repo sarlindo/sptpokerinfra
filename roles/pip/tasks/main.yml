@@ -1,0 +1,30 @@
+---
+- name: install pip, apache and mod_wsgi
+  yum: name={{ item }} state=latest
+  with_items:
+    - python-pip
+    - httpd
+    - mod_wsgi
+    - gcc
+    - python-devel
+    - mysql-devel
+    - gcc-c++ 
+    - git
+    - postgresql-devel
+
+- name: install pip
+  pip: name=pip state=latest
+
+- name: Create directory for app
+  file: path=/apps/tmx/webstore state=directory
+
+- name: Copy requirements.txt file
+  copy: 
+     src: files/requirements.txt
+     dest: /apps/tmx/webstore/requirements.txt
+
+- name: install setuptools
+  pip: name=setuptools state=latest
+
+- name: install python packages
+  pip: requirements=/apps/tmx/webstore/requirements.txt

@@ -1,0 +1,9 @@
+---
+- name: WebStore
+  hosts: webstore
+  become: yes
+  become_method: sudo
+  roles:
+    - epelrepo
+    - pip
+    - apiwebstore
