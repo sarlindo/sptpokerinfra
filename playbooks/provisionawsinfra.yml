@@ -14,10 +14,10 @@
       instance_name: "{{ webstoreapi_dbinstancename }}"
       db_name: "{{ webstoreapi_dbname }}" 
       db_engine: postgres
-      instance_type: db.r3.large
+      instance_type: db.t2.micro
       username: "{{ webstoreapi_dbuser }}"
       password: "{{ webstoreapi_dbpassword }}"
-      multi_zone: yes
+      multi_zone: no
       publicly_accessible: yes
       backup_retention: 1
       size: 10
