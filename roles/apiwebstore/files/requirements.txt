@@ -16,7 +16,7 @@ MySQL-python==1.2.5
 numpy==1.11.0rc1
 pandas==0.18.0
 pycrypto==2.6.1
-pycryptodome==3.4
+pycryptodome==3.6.6
 pymongo==3.2.2
 #version was wrong they had 1.1.8.2 for pyjwkest and instead the latest is 1.1.7
 pyjwkest==1.1.7
