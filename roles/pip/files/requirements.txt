@@ -30,7 +30,7 @@ rjsmin==1.0.12
 simplejson==3.8.2
 six==1.10.0
 SQLAlchemy==1.0.14
-urllib3==1.7.1
+urllib3==1.24.2
 xhtml2pdf==0.1a3
 xlrd==1.0.0
 # not installing virtualenv, just install libs globally
