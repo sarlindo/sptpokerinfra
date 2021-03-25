@@ -23,7 +23,7 @@ pymongo==3.2.2
 pyjwkest==1.1.7
 python-dateutil==2.5.1
 python-jwt==1.2.0
-PyYAML==3.11
+PyYAML==5.4
 rcssmin==1.0.6
 requests==2.10.0
 rjsmin==1.0.12
